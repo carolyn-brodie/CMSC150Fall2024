@@ -18,12 +18,10 @@ def longest_word(words):
     '''
     longest = ''
     for i in range(0,len(words)):
-        if len(words[i]) > len(longest):
+        if len(words[i]) >= len(longest):
             longest = words[i]
     return longest
 
 
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod(verbose=True)
+
 
