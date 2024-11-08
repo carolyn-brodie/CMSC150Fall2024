@@ -4,10 +4,7 @@ import random
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
-## These numbers represent "states" that the game can be in.
-GAME_INTRO = 1
-GAME_RUNNING = 2
-GAME_OVER = 3
+
 TIMEBETWEENDROPS = 100
 
 
@@ -58,7 +55,6 @@ class MyApplication(arcade.View):
         self.player = None
         self.score = 0
         self.score_text = None
-        self.current_state = None
         self.dropTime = TIMEBETWEENDROPS
         self.difficulty = 70  ##Intial speed determiner
 
@@ -95,10 +91,6 @@ class MyApplication(arcade.View):
         # Draw the background texture
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
                                       SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
-        self.draw_game()
-
-
-    def draw_game(self):
 
         self.bunny.draw()
         self.lolli_list.draw()
@@ -119,9 +111,6 @@ class MyApplication(arcade.View):
 
     def update(self, delta_time):
         """All the logic to move, and the game logic goes here. """
-
-        # Use this if you want something to stay on the screen for a limited time
-        self.frame_count += 1
 
         # Determine when to drop next lollipop
         if self.dropTime == 0:
@@ -156,7 +145,7 @@ class MyApplication(arcade.View):
             if lolli.top < 0:
                 lolli.kill()
                 self.draw_game_over()
-                self.frame_count = 0
+
 
         self.lolli_list.update()
         self.bunny.update()
@@ -165,14 +154,6 @@ class MyApplication(arcade.View):
         """ Called whenever the mouse moves. """
         self.player.center_x = x
         self.player.center_y = 50
-
-    def on_key_release(self, key, modifiers):
-        if key == arcade.key.SPACE:
-            if self.current_state == GAME_INTRO:
-                self.current_state= GAME_RUNNING
-        elif key == arcade.key.ESCAPE:
-            if self.current_state == GAME_OVER:
-                self.close()
 
 class GameOverView(arcade.View):
     def on_show_view(self):

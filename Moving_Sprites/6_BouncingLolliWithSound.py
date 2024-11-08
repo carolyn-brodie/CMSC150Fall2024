@@ -1,11 +1,7 @@
 import arcade
 
-
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-GAME_RUNNING = 1
-GAME_OVER = 2
-
 
 class Lolli (arcade.Sprite):
 
@@ -24,7 +20,8 @@ class Lolli (arcade.Sprite):
             self.change_y *= -1
 
         self.center_x += self.change_x
-        super(Lolli,self).update()
+        self.center_y += self.change_y
+        super().update()
 
 
 class Game(arcade.Window):
@@ -35,7 +32,6 @@ class Game(arcade.Window):
         # Background image will be stored in this variable
         self.background = None
         self.lolli = None
-        self.frame_count = 0
         self.all_sprites_list = []
         self.sound = None
 
@@ -52,7 +48,6 @@ class Game(arcade.Window):
         self.background = arcade.load_texture("images/wall.jpg")
         self.all_sprites_list = arcade.SpriteList()
         self.sound = "./images/jump4.wav"
-        self.current_state = GAME_RUNNING
 
         self.lolli = Lolli("images/lollipopRed.png", .75, ":resources:sounds/hit5.wav")
 
@@ -70,11 +65,6 @@ class Game(arcade.Window):
     def on_draw(self):
         """Render the screen. """
         arcade.start_render()
-        self.draw_game()
-
-
-
-    def draw_game(self):
 
         # Draw the background texture
         arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
@@ -87,8 +77,6 @@ class Game(arcade.Window):
 
     def update(self, delta_time):
         """All the logic to move, and the game logic goes here. """
-
-        self.frame_count += 1
 
         self.lolli.update()
 
